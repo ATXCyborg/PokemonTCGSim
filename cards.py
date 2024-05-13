@@ -4,6 +4,12 @@ class baseCard:
         self.cardType = cardType
         self.subTypes = subTypes
 
+    def printName(self):
+        print(self.cardName)
+
+    def isSubType(self, sub: str):
+        return sub in self.subTypes
+
     def isPokemon(self):
         return self.cardType == "Pokemon"
 
@@ -13,22 +19,24 @@ class baseCard:
     def isEnergy(self):
         return self.cardType == "Energy"
 
-    def printName(self):
-        print(self.cardName)
-
-    def isSubType(self, sub: str):
-        return sub in self.subTypes
 
 ########################## Pokemon Cards ######################################
 class pokemonCard(baseCard):
-    def __init__(self, cardName: str = None, subTypes: list = []):
+    def __init__(self, cardName: str = None,
+                 subTypes: list = [],
+                 attacks: list = [],
+                 hp: int = 0,
+                 pokeType: str = None,
+                 weakness: str = None,
+                 resistance: str = None):
         super().__init__(cardName = cardName, cardType = "Pokemon", subTypes = subTypes)
-        self.attacks = []
+        self.attacks = attacks
         self.ability = None
-        self.hp = 0
-        self.type = None
-        self.weakness = None
-        self.resistance = None
+        self.hp = hp
+        self.type = pokeType
+        self.weakness = weakness
+        self.resistance = resistance
+
 
 ########################## Trainer Cards ######################################
 class trainerCard(baseCard):
