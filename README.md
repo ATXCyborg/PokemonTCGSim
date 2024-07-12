@@ -13,3 +13,4 @@ Simulation engine to help test out possible decks.
 - [ ] Pokemon game with item cards
 - [ ] Pokemon game with supporter cards
 - [ ] Pokemon game with tool cards
+- [ ] Pokemon game with stadium cards
