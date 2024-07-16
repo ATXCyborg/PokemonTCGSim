@@ -23,9 +23,14 @@ class cardZone:
         return ret
     
 class field:
+    zoneNames = ["deck", "discard"]
+    zones = {}
+
     def __init__(self, numPlayers: int = 2):
-        self.zones = {"deck": cardZone("deck")}
         for i in range(numPlayers):
             nameStr = f"p{i}_hand"
-            self.zones[nameStr] = cardZone(nameStr)
-        self.zones = {"discard": cardZone("discard")}
+            self.zoneNames.append(nameStr)
+
+        for name in self.zoneNames:
+            self.zones[name] = cardZone(name)
+            
