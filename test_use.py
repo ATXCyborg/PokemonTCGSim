@@ -1,4 +1,4 @@
-import cards
+import pokemonCardStructure as cards
 
 test_cards = []
 

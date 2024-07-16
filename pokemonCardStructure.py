@@ -1,6 +1,8 @@
-class baseCard:
+import cardBase
+
+class basePokeCard(cardBase.baseCard):
     def __init__(self, cardName: str = None, cardType: str = None, subTypes: list = []):
-        self.cardName = cardName
+        super().__init__(cardName = cardName)
         self.cardType = cardType
         self.subTypes = subTypes
 
@@ -21,7 +23,7 @@ class baseCard:
 
 
 ########################## Pokemon Cards ######################################
-class pokemonCard(baseCard):
+class pokemonCard(basePokeCard):
     def __init__(self, cardName: str = None,
                  subTypes: list = [],
                  attacks: list = [],
@@ -39,7 +41,7 @@ class pokemonCard(baseCard):
 
 
 ########################## Trainer Cards ######################################
-class trainerCard(baseCard):
+class trainerCard(basePokeCard):
     def __init__(self, cardName: str = None, subTypes: list = []):
         super().__init__(cardName = cardName, cardType = "Trainer", subTypes = subTypes)
 
@@ -59,7 +61,7 @@ class supporterCard(trainerCard):
         super().__init__(cardName = cardName, subTypes = subTypes)
 
 ########################### Energy Cards ######################################
-class energyCard(baseCard):
+class energyCard(basePokeCard):
     def __init__(self, cardName: str = None, subTypes: list = []):
         super().__init__(cardName = cardName, cardType = "Energy", subTypes = subTypes)
 
