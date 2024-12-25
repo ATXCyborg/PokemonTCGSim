@@ -22,6 +22,16 @@ class gameState:
                 for i in range(self.deckSize):
                     self.cardState[(player * self.deckSize)+i,
                                    ECardStateEntries.UID.value] = deckList[i]
+                
+                if player == ESupportedPlayers.PLAYER_1.value:
+                    self.cardState[(player * self.deckSize):
+                                   (player * self.deckSize)+self.deckSize,
+                                   ECardStateEntries.P1V_UID.value] = 1
+                elif player == ESupportedPlayers.PLAYER_2.value:
+                    self.cardState[(player * self.deckSize):
+                                   (player * self.deckSize)+self.deckSize,
+                                   ECardStateEntries.P2V_UID.value] = 1
+
             else:
                 print(f"Invalid size of deck {len(deckList)} provided."+
                       f" Must be {self.deckSize} in length.\n")
