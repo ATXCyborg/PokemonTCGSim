@@ -20,18 +20,23 @@ class gameState:
         if (player < ESupportedPlayers.MAX_SUPPORTED_PLAYERS.value):
             if len(deckList) == self.deckSize:
                 for i in range(self.deckSize):
-                    self.cardState[(player * self.deckSize)+i, ECardStateEntries.UID.value] = deckList[i]
+                    self.cardState[(player * self.deckSize)+i,
+                                   ECardStateEntries.UID.value] = deckList[i]
             else:
-                print(f"Invalid size of deck {len(deckList)} provided. Must be {self.deckSize} in length.\n")
+                print(f"Invalid size of deck {len(deckList)} provided."+
+                      f" Must be {self.deckSize} in length.\n")
         else:
-            print(f"Invalid player {player} specified. Only {ESupportedPlayers.MAX_SUPPORTED_PLAYERS.value} supported.\n")
+            print(f"Invalid player {player} specified."+
+                  f" Only {ESupportedPlayers.MAX_SUPPORTED_PLAYERS.value} supported.\n")
         return
 
     def printDeckList(self, player: int = 0):
         if (player < ESupportedPlayers.MAX_SUPPORTED_PLAYERS.value):
-            print(self.cardState[(player * self.deckSize):(player * self.deckSize)+self.deckSize, ECardStateEntries.UID.value])
+            print(self.cardState[(player * self.deckSize):(player * self.deckSize)+self.deckSize,
+                                 ECardStateEntries.UID.value])
         else:
-            print(f"Invalid player {player} specified. Only {ESupportedPlayers.MAX_SUPPORTED_PLAYERS.value} supported.\n")
+            print(f"Invalid player {player} specified."+
+                  f" Only {ESupportedPlayers.MAX_SUPPORTED_PLAYERS.value} supported.\n")
         return
 
     def printCardState(self):
