@@ -1,12 +1,14 @@
 import numpy as np
 from enum import Enum
-from gameconstants import ECardStateEntries, ESupportedPlayers
+from gameConstants import ECardStateEntries, ESupportedPlayers
+
+# Game State maintains the state information at any point in time along with relevant historical information (has an energy been attached or a supporter played this turn)
 
 class gameState:
     def __init__(self,
-                 deckSize: int = 60,
+                 deckSize:   int = 60,
                  numPlayers: int = ESupportedPlayers.MAX_SUPPORTED_PLAYERS.value,
-                 numPrizes: int = 6):
+                 numPrizes:  int = 6):
         self.deckSize = deckSize
         self.numPlayers = numPlayers
         self.cardState = np.zeros( (self.numPlayers*self.deckSize,
@@ -59,8 +61,8 @@ class gameState:
         return (self.cardState,self.prizesRemaining,self.energyAttached,
                 self.supporterPlayed, self.turnPlayer)
 
-    def loadGameState(self, deckSize, numPlayers, cardState, numPrizes,
-                      prizesRemaining, energyAttached, supporterPlayed, turnPlayer):
+    def importGameState(self, deckSize, numPlayers, cardState, numPrizes,
+                        prizesRemaining, energyAttached, supporterPlayed, turnPlayer):
         self.deckSize        = deckSize
         self.numPlayers      = numPlayers
         self.cardState       = cardState
