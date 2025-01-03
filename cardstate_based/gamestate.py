@@ -14,6 +14,8 @@ class gameState:
                                    dtype=np.int16)
         self.numPrizes = numPrizes
         self.prizesRemaining = np.zeros(self.numPlayers, dtype=np.int16) + self.numPrizes
+        self.energyAttached = False
+        self.supporterPlayed = False
         self.turnPlayer = ESupportedPlayers.PLAYER_1.value
 
     def loadDeck(self, player: int = 0, deckList: list = []):
@@ -54,17 +56,21 @@ class gameState:
         return
 
     def getGameState(self):
-        return (self.cardState,self.prizesRemaining,self.turnPlayer)
+        return (self.cardState,self.prizesRemaining,self.energyAttached,
+                self.supporterPlayed, self.turnPlayer)
 
     def loadGameState(self, deckSize, numPlayers, cardState, numPrizes,
-                      prizesRemaining, turnPlayer):
+                      prizesRemaining, energyAttached, supporterPlayed, turnPlayer):
         self.deckSize        = deckSize
         self.numPlayers      = numPlayers
         self.cardState       = cardState
         self.numPrizes       = numPrizes
         self.prizesRemaining = prizesRemaining
+        self.energyAttached  = energyAttached
+        self.supporterPlayed = supporterPlayed
         self.turnPlayer      = turnPlayer
 
     def exportGameState(self):
         return (self.deckSize, self.numPlayers, self.cardState, self.numPrizes,
-                self.prizesRemaining, self.turnPlayer)
+                self.energyAttached, self.supporterPlayed, self.prizesRemaining,
+                self.turnPlayer)
