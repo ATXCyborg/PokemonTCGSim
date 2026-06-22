@@ -3,6 +3,7 @@ from dataclasses import dataclass, field
 from typing import Any, Callable, Dict, Optional, List
 from enum import Enum
 
+from attacks import Attack
 
 class CardType(Enum):
     POKEMON = "Pokemon"
@@ -38,7 +39,7 @@ class EnergyType(ENUM):
     FAIRY     = "Fairy"
     DRAGON    = "Dragon"
     COLORLESS = "Colorless"
-    RAINBOW   = "Rainbow" #Used for items that can be any type
+    RAINBOW   = "Rainbow"
 
 @dataclass
 class Card:
@@ -47,7 +48,7 @@ class Card:
     card_subtype: List[CardSubType]
     hp: int = 0
     energy_type: List[EnergyType]
-#    attacks: List[TBD]
+    attacks: List[Attack]
     weakness: List[EnergyType]
     resistance: List[EnergyType]
     retreat_cost: int = 0
