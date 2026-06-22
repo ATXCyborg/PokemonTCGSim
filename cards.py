@@ -35,8 +35,10 @@ class EnergyType(ENUM):
     FIGHTING  = "Fighting"
     DARKNESS  = "Darkness"
     METAL     = "Metal"
+    FAIRY     = "Fairy"
     DRAGON    = "Dragon"
     COLORLESS = "Colorless"
+    RAINBOW   = "Rainbow" #Used for items that can be any type
 
 @dataclass
 class Card:
