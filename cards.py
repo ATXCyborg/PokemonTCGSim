@@ -11,11 +11,11 @@ class Card:
     name: str
     card_type: List[CardType]
     card_subtype: List[CardSubType]
-    hp: int = 0
     energy_type: List[EnergyType]
     attacks: List[Attack]
     weakness: List[EnergyType]
     resistance: List[EnergyType]
+    hp: int = 0
     retreat_cost: int = 0
     regulation_mark: str = ""
     card_set: str = ""
@@ -25,5 +25,5 @@ class Card:
     def card_id(self) -> str:
         """Stable identifier for this card template (name+card_set+set_number)"""
         parsed_name = re.sub(r"[^a-z0-9]+", "-", self.name.lower()).strip("-")
-        set_code_number = "{self.card_set}{self.set_number}" if POKEMON in self.card_type else ""
+        set_code_number = f"{self.card_set}{self.set_number}" if CardType.POKEMON in self.card_type else ""
         return f"{parsed_name}{set_code_number}"

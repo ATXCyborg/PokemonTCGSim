@@ -21,11 +21,11 @@ Define an attack on a card::
 """
 
 from dataclasses import dataclass
-from typing import Callable
+from typing import Callable, List
 
 from enumerations import EnergyType
 
-@ddataclass
+@dataclass
 class Attack:
     name: str
     attack_cost: List[EnergyType]
