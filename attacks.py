@@ -12,6 +12,7 @@ Define an attack on a card::
 
    Attack(
       Name: str (used for logging which attack is used)
+      Attack Cost: list[EnergyType]
       Base Damage: int
       Damage Modification: callable function
       Damage Allocation: callable function
@@ -22,9 +23,12 @@ Define an attack on a card::
 from dataclasses import dataclass
 from typing import Callable
 
+from enumerations import EnergyType
+
 @ddataclass
 class Attack:
     name: str
+    attack_cost: List[EnergyType]
     base_damage: int
     damage_modification: Callable[[int], int]
     damage_allocation: Callable[[int], int]
