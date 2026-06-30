@@ -1,0 +1,92 @@
+==============================================================================
+ CARD IMPLEMENTATION & TEST STATUS
+ Pokemon Trading Card Game (PTCG) Standard Format
+==============================================================================
+
+Legend:
+  [x] DONE      — item implemented AND covered by unit tests
+  [/] DONE      — item implementation in progress
+  [ ] TODO      — still needs implementation and/or unit tests
+
+Unit tests for completed cards live in:
+  environment/src/ptcg_step_card_tests.rs
+(declared as a child test module of `ptcg_step` so they can reach its private
+on-play-effect helpers).
+
+
+------------------------------------------------------------------------------
+ General Game Structure
+------------------------------------------------------------------------------
+  [/] Card Type Enumerations
+  - [x] Energy Type        (card_enumerations.rs)
+  - [x] Card Type          (card_enumerations.rs)
+  - [x] Card SubType       (card_enumerations.rs)
+  - [x] Card Location      (TBD)
+  - [x] Card Visible State (game_state_enumerations.rs)
+  - [ ] Actions            (TBD)
+  [ ] Attacks
+  - [ ] Attack Base Damage
+  - [ ] Attack Additional Damage
+  - [ ] Attack Effects
+  [/] Cards
+  - [/] Base Structure
+  - [ ] Transition Effects
+  [ ] Decks
+  - [ ] Legality Guarantees
+    - [ ] At least 1 Basic
+    - [ ] No more than 4 of any non-basic energy cards
+    - [ ] No more than 1 ace spec card
+  [ ] Game Structure
+  - [ ] Setup
+  - [ ] Player Turn
+  - [ ] Checkup
+  - [ ] Check for Win Conditions
+  - [ ] Legal Actions
+
+------------------------------------------------------------------------------
+ TODO — Pokemon
+------------------------------------------------------------------------------
+  [ ] Squirtle (Simple Test)
+  [ ] Bulbasaur (Simple Test)
+  [ ] Charmander (Simple Test)
+
+
+------------------------------------------------------------------------------
+ TODO — Trainer Cards
+------------------------------------------------------------------------------
+  [ ] Supporters
+  - [ ] Professor's Research
+  - [ ] TBD
+  [ ] Item
+  - [ ] Jumbo Ice Cream
+  - [ ] TBD
+  [ ] Tools
+  - [ ] Bravery Charm
+  - [ ] TBD
+
+
+------------------------------------------------------------------------------
+ TODO — Energy
+------------------------------------------------------------------------------
+  [ ] Basic Energy
+  - [ ] Grass
+  - [ ] Fire
+  - [ ] Lightning
+  - [ ] Psychic
+  - [ ] Fighting
+  - [ ] Darkness
+  - [ ] Metal
+  - [ ] Fairy
+  - [ ] Dragon
+  [ ] Special Energy
+  - [ ] TBD
+
+
+==============================================================================
+ NOTES
+==============================================================================
+- Some shared combat mechanics (e.g. Intimidate, Pack Call token generation)
+  already have coverage in the general `fab_step::tests` module, but the cards
+  above are not yet considered fully implemented + dedicated-card-tested and so
+  remain on the TODO list.
+==============================================================================
