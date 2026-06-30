@@ -1,4 +1,4 @@
-use crate::card::Card;
+use crate::cards::Card;
 use crate::game_state_enumerations::{CardLocation, CardVisibleState, GamePhase};
 use rand::rngs::SmallRng;
 
