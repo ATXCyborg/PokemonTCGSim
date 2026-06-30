@@ -24,7 +24,7 @@ on-play-effect helpers).
   - [/] Card Location      (TBD)
   - [x] Card Visible State (game_state_enumerations.rs)
   - [/] Game Phase         (game_state_enumerations.rs)
-  - [ ] Actions            (TBD)
+  - [/] Actions            (TBD)
   [ ] Attacks
   - [ ] Attack Base Damage
   - [ ] Attack Additional Damage
@@ -42,7 +42,7 @@ on-play-effect helpers).
   - [ ] Player Turn
   - [ ] Checkup
   - [/] Check for Win Conditions
-  - [ ] Legal Actions
+  - [/] Legal Actions
 
 ------------------------------------------------------------------------------
  TODO — Pokemon
