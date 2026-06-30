@@ -31,6 +31,7 @@ pub enum CardVisibleState {
 #[repr(u8)]
 pub enum GamePhase {
     Setup,      // Possibly add more steps here for setup if needed
+    Draw,       // Draw at the beginnning of turn (check for deckout lose condition)
     PlayerTurn, // Turn to play items, tools, supporters, attach energy, activate ability, etc.
     Attack, // Phase entered if attack action taken. Pass action bypasses attack and goes directly to Checkup.
     Checkup, // Perform checkup between player turns
