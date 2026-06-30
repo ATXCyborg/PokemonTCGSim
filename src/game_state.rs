@@ -2,6 +2,60 @@ use crate::card::Card;
 use crate::game_state_enumerations::{CardLocation, CardVisibleState, GamePhase};
 use rand::rngs::SmallRng;
 
+#[derive(Clone, Copy, PartialEq, Eq, Debug, Hash)]
+pub struct CardIdx(pub u8);
+
+impl CardIdx {
+    #[inline]
+    pub const fn new(i: usize) -> Self {
+        CardIdx(i as u8)
+    }
+
+    #[inline]
+    pub const fn get(self) -> usize {
+        self.0 as usize
+    }
+}
+
+#[derive(Clone, Copy, PartialEq, Eq, Debug, Hash)]
+pub struct PlayerIndex(pub u8);
+
+impl PlayerIndex {
+    pub const P1: PlayerIndex = PlayerIndex(0);
+    pub const P2: PlayerIndex = PlayerIndex(2);
+
+    #[inline]
+    pub const fn new(i: u8) -> self {
+        PlayerIndex(i)
+    }
+
+    #[inline]
+    pub const fn get(self) -> u8 {
+        self.0
+    }
+
+    #[inline]
+    pub const fn index(self) -> usize {
+        self.0 as usize
+    }
+
+    #[inline]
+    pub const fn opponent(self) -> Self {
+        PlayerIndex(self.0 ^ 1)
+    }
+}
+
+pub struct Player {
+    pub pid: PlayerIndex,
+    pub prizes: u8,
+    pub top_deck_idx: Option<CardIdx>,
+    pub bot_deck_idx: Option<CardIdx>,
+    pub hand_idx: Option<CardIdx>,
+    pub hand_size: u8,
+    pub deck_size: u8,
+    pub log: Option<Vec<String>>,
+}
+
 // Number of cards in each player's deck. The unified `GameState::cards` array
 // is `2*DECK_SIZE` long: player 0 owns slots `0...DECK_SIZE` and player 1 owns
 // slots `DECK_SIZE...2*DECK_SIZE`.
