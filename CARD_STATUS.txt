@@ -36,7 +36,7 @@ on-play-effect helpers).
     - [ ] At least 1 Basic
     - [ ] No more than 4 of any non-basic energy cards
     - [ ] No more than 1 ace spec card
-  [ ] Game Structure
+  [/] Game Structure
   - [ ] Setup
   - [ ] Player Turn
   - [ ] Checkup
