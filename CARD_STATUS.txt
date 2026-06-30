@@ -17,12 +17,13 @@ on-play-effect helpers).
 ------------------------------------------------------------------------------
  General Game Structure
 ------------------------------------------------------------------------------
-  [/] Card Type Enumerations
+  [/] Enumerations
   - [x] Energy Type        (card_enumerations.rs)
   - [x] Card Type          (card_enumerations.rs)
   - [x] Card SubType       (card_enumerations.rs)
-  - [x] Card Location      (TBD)
+  - [/] Card Location      (TBD)
   - [x] Card Visible State (game_state_enumerations.rs)
+  - [/] Game Phase         (game_state_enumerations.rs)
   - [ ] Actions            (TBD)
   [ ] Attacks
   - [ ] Attack Base Damage
