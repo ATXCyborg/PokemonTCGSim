@@ -56,6 +56,15 @@ pub struct Player {
     pub log: Option<Vec<String>>,
 }
 
+#[derive(Clone, Copy)]
+pub struct CardState {
+    pub visible: CardVisibleState,
+    pub location: CardLocation,
+    pub card: Card,
+    pub next_card: CardIdx,
+    pub prev_card: CardIdx,
+}
+
 // Number of cards in each player's deck. The unified `GameState::cards` array
 // is `2*DECK_SIZE` long: player 0 owns slots `0...DECK_SIZE` and player 1 owns
 // slots `DECK_SIZE...2*DECK_SIZE`.
@@ -71,7 +80,7 @@ pub struct GameState {
     // Every index stored anywhere (deck, bench, active, discard, etc.) is a
     // global index into this array, so the owner of any card is implied by
     // which half it falls in.
-    pub cards: [Card; TOTAL_CARDS],
+    pub cards: [CardState; TOTAL_CARDS],
     pub turn_player: PlayerIndex,
     pub phase: GamePhase,
     pub rng: SmallRng,
@@ -91,24 +100,25 @@ impl GameState {
         self.phase.is_terminal()
     }
 
-    // Terminal Game State Check Functions Below
-
-    // Check for "Deck Out" when turn player is supposed to draw at the
-    // beginning of turn and have no cards in deck
-    pub fn is_decked_out(&self) -> bool {
-        False
-    }
-
-    // Check for "Bench Out" when a player has no more pokemon in play (can
-    // happen to either player in either player's turns).
-    pub fn is_benched_out(&self) -> bool {
-        False
-    }
-
-    // Check for all prizes taken by player
-    pub fn is_prized_out(&self) -> bool {
-        False
-    }
+    // Move the below functions to the Player implementation
+    //    // Terminal Game State Check Functions Below
+    //
+    //    // Check for "Deck Out" when turn player is supposed to draw at the
+    //    // beginning of turn and have no cards in deck
+    //    pub fn is_decked_out(&self) -> bool {
+    //        False
+    //    }
+    //
+    //    // Check for "Bench Out" when a player has no more pokemon in play (can
+    //    // happen to either player in either player's turns).
+    //    pub fn is_benched_out(&self) -> bool {
+    //        False
+    //    }
+    //
+    //    // Check for all prizes taken by player
+    //    pub fn is_prized_out(&self) -> bool {
+    //        False
+    //    }
 
     // True when logging is enabled by `reset(gs, true)`. Callers should check
     // this before building log strings so disabled logging costs nothing.
@@ -118,7 +128,7 @@ impl GameState {
 
     // Append a fully-public event: the same message goes to the gamestate log
     // and both players' logs. A no-op when logging is disabled.
-    pub fn log_pulic(&mut self, msg: String) {
+    pub fn log_public(&mut self, msg: String) {
         self.log_views(msg.clone(), msg.clone(), msg);
     }
 
