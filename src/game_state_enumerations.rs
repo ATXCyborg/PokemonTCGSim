@@ -18,6 +18,63 @@ pub enum CardLocation {
     P2LostZone,
 }
 
+// Symmetric set of per-player zone constructors; some are not yet referenced
+// yet as the engine is still being built out.
+#[allow(dead_code)]
+impl CardLocation {
+    // Per-player zone constructors. `pid` is the owning player; each returns
+    // that player's variant of the zone.
+    pub const fn hand(pid: PlayerIndex) -> Self {
+        if pid.get() == 0 {
+            Self::P1Hand
+        } else {
+            Self::P2Hand
+        }
+    }
+    pub const fn deck(pid: PlayerIndex) -> Self {
+        if pid.get() == 0 {
+            Self::P1Deck
+        } else {
+            Self::P2Deck
+        }
+    }
+    pub const fn bench(pid: PlayerIndex) -> Self {
+        if pid.get() == 0 {
+            Self::P1Bench
+        } else {
+            Self::P2Bench
+        }
+    }
+    pub const fn active(pid: PlayerIndex) -> Self {
+        if pid.get() == 0 {
+            Self::P1Active
+        } else {
+            Self::P2Active
+        }
+    }
+    pub const fn discard(pid: PlayerIndex) -> Self {
+        if pid.get() == 0 {
+            Self::P1Discard
+        } else {
+            Self::P2Discard
+        }
+    }
+    pub const fn prizes(pid: PlayerIndex) -> Self {
+        if pid.get() == 0 {
+            Self::P1Prizes
+        } else {
+            Self::P2Prizes
+        }
+    }
+    pub const fn lost_zone(pid: PlayerIndex) -> Self {
+        if pid.get() == 0 {
+            Self::P1LostZone
+        } else {
+            Self::P2LostZone
+        }
+    }
+}
+
 #[derive(Clone, Copy, Debug, PartialEq)]
 #[repr(u8)]
 pub enum CardVisibleState {
