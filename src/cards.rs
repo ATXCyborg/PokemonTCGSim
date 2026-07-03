@@ -1,4 +1,5 @@
 use crate::card_enumerations::{CardSubType, CardType, EnergyType};
+use crate::game_state::CardIdx;
 
 pub struct Card {
     pub name: String,
@@ -7,8 +8,8 @@ pub struct Card {
     pub energy_type: Vec<EnergyType>,
     //pub attacks: Vec<Attack>
     //pub ability: Ability
-    pub attached_tools: Vec<Card>,
-    pub attached_energy: Vec<Card>,
+    pub attached_tools: Vec<CardIdx>,
+    pub attached_energy: Vec<CardIdx>,
     pub weakness: Vec<EnergyType>,
     pub resistance: Vec<EnergyType>,
     pub hp: u16,
