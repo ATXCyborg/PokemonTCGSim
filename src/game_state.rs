@@ -17,6 +17,24 @@ impl CardIdx {
     }
 }
 
+pub struct ZoneIter<'a> {
+    cards: &'a [CardState; TOTAL_CARDS],
+    current: Option<usize>,
+}
+
+impl<'a> Iterator for ZoneIter<'a> {
+    type Item = (usize, CardState);
+
+    fn next(&mut self) -> Option<Self::Item> {
+        let idx = self.current?;
+        let card = self.cards[idx];
+        let next = card.next_card.get();
+        // A node whose `next_card` point at itself marks the end of the list.
+        self.current = if next == idx { None } else { Some(next) };
+        some((idx, card))
+    }
+}
+
 #[derive(Clone, Copy, PartialEq, Eq, Debug, Hash)]
 pub struct PlayerIndex(pub u8);
 
