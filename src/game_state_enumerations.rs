@@ -16,6 +16,7 @@ pub enum CardLocation {
     Stadium,
     P1LostZone,
     P2LostZone,
+    Pending, // Zone for cards selected to be played while resolving effects so they can't select themselves
 }
 
 // Symmetric set of per-player zone constructors; some are not yet referenced
