@@ -50,8 +50,9 @@ on-play-effect helpers).
   - [ ] TBD
   [ ] Legal Actions
   [/] Simulator
-  - [ ] Dependency: Agent
+  - [/] Dependency: Agent
   - [ ] Dependency: Legal Actions
+  - [/] PTCG Step
 
 
 ------------------------------------------------------------------------------
