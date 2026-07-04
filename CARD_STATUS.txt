@@ -25,8 +25,8 @@ on-play-effect helpers).
   - [x] Card Visible State (game_state_enumerations.rs)
   - [/] Game Phase         (game_state_enumerations.rs)
   - [/] Actions            (TBD)
-  [ ] Attacks
-  - [ ] Attack Base Damage
+  [/] Attacks
+  - [/] Attack Base Damage
   - [ ] Attack Additional Damage
   - [ ] Attack Effects
   [/] Cards
@@ -43,6 +43,16 @@ on-play-effect helpers).
   - [ ] Checkup
   - [/] Check for Win Conditions
   - [/] Legal Actions
+  [/] Agent
+  - [/] Random Agent
+  - [ ] Always Attack
+  - [ ] Always Pass - Used with Always Attack to quickly test initially
+  - [ ] TBD
+  [ ] Legal Actions
+  [/] Simulator
+  - [ ] Dependency: Agent
+  - [ ] Dependency: Legal Actions
+
 
 ------------------------------------------------------------------------------
  TODO — Pokemon
