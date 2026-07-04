@@ -40,7 +40,7 @@ pub struct PlayerIndex(pub u8);
 
 impl PlayerIndex {
     pub const P1: PlayerIndex = PlayerIndex(0);
-    pub const P2: PlayerIndex = PlayerIndex(2);
+    pub const P2: PlayerIndex = PlayerIndex(1);
 
     #[inline]
     pub const fn new(i: u8) -> self {
