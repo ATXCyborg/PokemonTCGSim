@@ -93,6 +93,7 @@ pub struct CardState {
 
 pub const DECK_SIZE: usize = 60;
 pub const TOTAL_CARDS: usize = DECK_SIZE * 2;
+pub const MAX_TURNS: u8 = 250;
 
 pub struct GameState {
     pub p1: Player,
@@ -105,6 +106,7 @@ pub struct GameState {
     pub cards: [CardState; TOTAL_CARDS],
     pub turn_player: PlayerIndex,
     pub phase: GamePhase,
+    pub turn_count: u8,
     pub rng: SmallRng,
     // Game Log: every logged event with nothing redacted (the per-player views
     // with hidden information removed live on `Player::log`). `None` when
