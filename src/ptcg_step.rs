@@ -65,7 +65,9 @@ fn log_opening_hand(gs: &mut GameState, pid: PlayerIndex) {
     gs.log_views(named, p1_msg, p2_msg);
 }
 
-fn handle_setup(gs: &mut Gamestate, pid: PlayerIndex) {}
+fn handle_setup(gs: &mut Gamestate, pid: PlayerIndex) {
+    gs.phase = GamePhase::Draw;
+}
 
 // Start the player's turn. Draw a card from the deck, check for on-draw effects,
 // check for 'deck_out' conditions for ending game, add card to hand if card to draw.
@@ -93,10 +95,33 @@ fn handle_draw_for_turn(gs: &mut Gamestate, pid: PlayerIndex) {
     gs.phase = GamePhase::PlayerTurn;
 }
 
-fn handle_player_actions(gs: &mut Gamestate, pid: PlayerIndex) {}
-fn handle_attack(gs: &mut Gamestate, pid: PlayerIndex) {}
-fn handle_end_of_turn(gs: &mut Gamestate, pid: PlayerIndex) {}
-fn handle_checkup(gs: &mut Gamestate, pid: PlayerIndex) {}
+fn handle_player_actions(gs: &mut Gamestate, pid: PlayerIndex) {
+    // Player turn logic above this line
+    if gs.check_game_end(gs) == true {
+        gs.phase = GamePhase::PlayerDraw;
+    } else {
+        gs.phase = GamePhase::Attack;
+    }
+}
+fn handle_attack(gs: &mut Gamestate, pid: PlayerIndex) {
+    // Player turn logic above this line
+    handle_end_of_turn(gs, pid);
+}
+fn handle_end_of_turn(gs: &mut Gamestate, pid: PlayerIndex) {
+    if gs.check_game_end(gs) == true {
+        gs.phase = GamePhase::PlayerDraw;
+    } else {
+        gs.phase = GamePhase::Checkup;
+    }
+}
+fn handle_checkup(gs: &mut Gamestate, pid: PlayerIndex) {
+    if gs.check_game_end(gs) == true {
+        gs.phase = GamePhase::PlayerDrawl;
+    } else {
+        gs.turn_player = gs.turn_player.opponent();
+        gs.phase = GamePhase::Draw;
+    }
+}
 
 fn draw_cards(player: &mut Player, cards: &mut [CardState; TOTAL_CARDS], num: usize) {
     let mut drawn = 0;
