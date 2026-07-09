@@ -87,6 +87,15 @@ pub enum CardVisibleState {
 
 #[derive(Clone, Copy, PartialEq, Eq, Debug)]
 #[repr(u8)]
+pub enum GameWinner {
+    NoWinnerYet,
+    Player1Winner,
+    Player2Winner,
+    Tie,
+}
+
+#[derive(Clone, Copy, PartialEq, Eq, Debug)]
+#[repr(u8)]
 pub enum GamePhase {
     Setup,      // Possibly add more steps here for setup if needed
     Draw, // Draw at the beginnning of turn (check for deckout lose condition, on-draw effects)

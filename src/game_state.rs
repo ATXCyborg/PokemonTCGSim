@@ -1,5 +1,5 @@
 use crate::cards::Card;
-use crate::game_state_enumerations::{CardLocation, CardVisibleState, GamePhase};
+use crate::game_state_enumerations::{CardLocation, CardVisibleState, GamePhase, GameWinner};
 use rand::rngs::SmallRng;
 
 #[derive(Clone, Copy, PartialEq, Eq, Debug, Hash)]
@@ -74,6 +74,8 @@ pub struct Player {
     pub discard_idx: Option<CardIdx>,
     pub bench_idx: Option<CardIdx>,
     pub active_idx: Option<CardIdx>,
+    pub bench_size: u8,
+    pub bench_limit: u8,
     pub hand_size: u8,
     pub deck_size: u8,
     pub log: Option<Vec<String>>,
@@ -108,6 +110,7 @@ pub struct GameState {
     pub turn_player: PlayerIndex,
     pub phase: GamePhase,
     pub turn_count: u8,
+    pub winning_player: GameWinner,
     pub rng: SmallRng,
     // Game Log: every logged event with nothing redacted (the per-player views
     // with hidden information removed live on `Player::log`). `None` when
@@ -134,7 +137,20 @@ impl GameState {
         return deck_size == 0;
     }
 
-    pub fn check_for_win_conditions(&self) -> bool {}
+    pub fn check_for_win_conditions(&self) -> bool {
+        if self.p1.bench_size == 0 {
+            return true;
+        }
+        if self.p2.bench_size == 0 {
+            return true;
+        }
+        if self.p1.prizes == 0 {
+            return true;
+        }
+        if self.p2.prizes == 0 {
+            return true;
+        }
+    }
 
     // Checks various conditions for determining the end of the game.
     pub fn check_game_end(&mut self) -> bool {
@@ -143,7 +159,9 @@ impl GameState {
         }
         match self.phase {
             GamePhase::Draw => return self.check_for_deck_out(),
-            GamePhase::Checkup => return self.check_for_prizes(),
+            GamePhase::Checkup | GamePhase::PlayerTurn | GamePhase::Attack | GamePhase::Pass => {
+                return self.check_for_win_conditions();
+            }
             _ => {
                 return false;
             }
