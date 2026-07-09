@@ -140,15 +140,34 @@ fn detach_from_current_zone(player: &mut Player, cards: &mut [CardState; TOTAL_C
     let location = cards[idx].location;
     match location {
         CardLocation::P1Hand | CardLocation::P2Hand => {
-            
+            detach_from_linked_list(
+                cards,
+                &mut player.hand_idx,
+                None,
+                Some(&mut player.hand_size),
+                idx,
+            );
         }
         CardLocation::P1Deck | CardLocation::P2Deck => {
-            
+            detach_from_linked_list(
+                cards,
+                &mut player.top_deck_idx,
+                Some(&mut player.bot_deck_idx),
+                Some(&mut player.deck_size),
+                idx,
+            );
         }
         CardLocation::P1Bench | CardLocation::P2Bench => {
-            
+            detach_from_linked_list(cards, &mut player.bench_idx, None, None, idx);
         }
-        CardLocation::P1Active | CardLocation::P2Active 
+        CardLocation::P1Active | CardLocation::P2Active => player.active_idx = None,
+        CardLocation::P1Discard | CardLocation::P2Discard => {
+            detach_from_linked_list(cards, &mut player.discard_idx, None, None, idx);
+        }
+        CardLocation::P1Prizes | CardLocation::P2Prizes => {
+            detach_from_linked_list(cards, &mut player.prize_idx, None, None, idx);
+        }
+        _ => {} //Need to implement stadium and tools later
     }
 }
 
@@ -166,12 +185,12 @@ fn detach_from_linked_list(
     bottom: Option<&mut Option<Cardidx>>,
     count: Option<&mut u8>,
     idx: usize,
-){
+) {
     let next = cards[idx].next_card.get();
     let is_hand = *head == Some(CardIdx::new(idx));
     let is_tail = next == idx;
 
-    if is_head && is_tail{
+    if is_head && is_tail {
         // Only card in the list; both ends clear.
         *head = None;
         if let Some(bottom) = bottom {
