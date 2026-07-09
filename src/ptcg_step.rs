@@ -74,8 +74,8 @@ fn handle_draw_for_turn(gs: &mut Gamestate, pid: PlayerIndex) {
     // in a draw, which 'check_game_end' detects from teh bumped counter.
     gs.turn_count += 1;
     // If not decked-out, draw card
-    let results = gs.check_game_end();
-    if results == true {
+    let decked_out = gs.check_game_end();
+    if decked_out == true {
         match gs.turn_player {
             PlayerIndex::P1 => gs.phase = GamePhase::Player2Win,
             PlayerIndex::P2 => gs.phase = GamePhase::Player1Win,

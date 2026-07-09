@@ -55,9 +55,9 @@ on-play-effect helpers).
   - [ ] handle_player_actions: Player ations for playing cards. Seleting attack or pass ends turn
   - [ ] handle_attack: Handle attack damage and effect resolution. Checks for win conditions.
                        Then calls handle_end_of_turn to finish turn.
-  - [ ] handle_end_of_turn: Called by either passing or at the end of handle_attack. All end-of-
+  - [/] handle_end_of_turn: Called by either passing or at the end of handle_attack. All end-of-
                             turn effects and resolution of 1-turn lockouts
-  - [ ] handle_checkup: Phase between turns for handling status conditions and abilities
+  - [/] handle_checkup: Phase between turns for handling status conditions and abilities
   [/] Simulator
   - [/] Dependency: Agent
   - [ ] Dependency: Legal Actions

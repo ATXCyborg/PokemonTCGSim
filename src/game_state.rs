@@ -134,13 +134,19 @@ impl GameState {
         return deck_size == 0;
     }
 
+    pub fn check_for_win_conditions(&self) -> bool {}
+
+    // Checks various conditions for determining the end of the game.
     pub fn check_game_end(&mut self) -> bool {
         if self.is_game_over() {
             return true;
         }
         match self.phase {
             GamePhase::Draw => return self.check_for_deck_out(),
-            _ => {}
+            GamePhase::Checkup => return self.check_for_prizes(),
+            _ => {
+                return false;
+            }
         }
     }
 
