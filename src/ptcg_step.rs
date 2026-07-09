@@ -15,12 +15,12 @@ pub fn step(gs: &mut GameState, act: Action) {
         return;
     }
     match gs.phase {
-        Phase::Setup => handle_setup(gs, act),
-        Phase::Draw => handle_draw_for_turn(gs, act),
-        Phase::PlayerTurn => handle_player_actions(gs, act),
-        Phase::Attack => handle_attack(gs, act), //Processes attack, then calls handle_end_of_turn
-        Phase::Pass => handle_end_of_turn(gs, act),
-        Phase::Checkup => handle_checkup(gs, act), //Phase between player turns to handle upkeep/status conditions/etc.
+        GamePhase::Setup => handle_setup(gs, act),
+        GamePhase::Draw => handle_draw_for_turn(gs, act),
+        GamePhase::PlayerTurn => handle_player_actions(gs, act),
+        GamePhase::Attack => handle_attack(gs, act), //Processes attack, then calls handle_end_of_turn
+        GamePhase::Pass => handle_end_of_turn(gs, act),
+        GamePhase::Checkup => handle_checkup(gs, act), //Phase between player turns to handle upkeep/status conditions/etc.
         _ => {}
     }
 }
@@ -70,13 +70,29 @@ fn handle_setup(gs: &mut Gamestate, pid: PlayerIndex) {}
 // Start the player's turn. Draw a card from the deck, check for on-draw effects,
 // check for 'deck_out' conditions for ending game, add card to hand if card to draw.
 fn handle_draw_for_turn(gs: &mut Gamestate, pid: PlayerIndex) {
-   // Count this turn. Reaching 'MAX_TURNS' with no win conditions met ends the game
-   // in a draw, which 'check_game_end' detects from teh bumped counter.
-   gs.turn_count += 1;
-   let turn_player = if gs.turn_player == PlayerIndex::P1 { &mut gs.p1 } else { &mut gs.p2 };
-   // Check for deck-out condition
-   // If not decked-out, draw card
+    // Count this turn. Reaching 'MAX_TURNS' with no win conditions met ends the game
+    // in a draw, which 'check_game_end' detects from teh bumped counter.
+    gs.turn_count += 1;
+    // If not decked-out, draw card
+    let results = gs.check_game_end();
+    if results == true {
+        match gs.turn_player {
+            PlayerIndex::P1 => gs.phase = GamePhase::Player2Win,
+            PlayerIndex::P2 => gs.phase = GamePhase::Player1Win,
+            _ => {}
+        }
+        return;
+    }
+
+    let turn_player = if gs.turn_player == PlayerIndex::P1 {
+        &mut gs.p1
+    } else {
+        &mut gs.p2
+    };
+    draw_cards(&turn_player, &gs.cards, 1);
+    gs.phase = GamePhase::PlayerTurn;
 }
+
 fn handle_player_actions(gs: &mut Gamestate, pid: PlayerIndex) {}
 fn handle_attack(gs: &mut Gamestate, pid: PlayerIndex) {}
 fn handle_end_of_turn(gs: &mut Gamestate, pid: PlayerIndex) {}
@@ -95,7 +111,11 @@ fn draw_cards(player: &mut Player, cards: &mut [CardState; TOTAL_CARDS], num: us
     }
 }
 
-fn move_from_top_of_deck_to_hand(player: &mut Player, cards: &mut [CardState; TOTAL_CARDS], card_idx: usize) {
+fn move_from_top_of_deck_to_hand(
+    player: &mut Player,
+    cards: &mut [CardState; TOTAL_CARDS],
+    card_idx: usize,
+) {
     // Pull the card off teh deck (updates top/bottom pointers and deck_size),
     // then prepend it to the hand and mark it as known to its owner.
     let pid = player.pid;
@@ -119,6 +139,64 @@ fn move_from_top_of_deck_to_hand(player: &mut Player, cards: &mut [CardState; TO
 fn detach_from_current_zone(player: &mut Player, cards: &mut [CardState; TOTAL_CARDS], idx: usize) {
     let location = cards[idx].location;
     match location {
-        
+        CardLocation::P1Hand | CardLocation::P2Hand => {
+            
+        }
+        CardLocation::P1Deck | CardLocation::P2Deck => {
+            
+        }
+        CardLocation::P1Bench | CardLocation::P2Bench => {
+            
+        }
+        CardLocation::P1Active | CardLocation::P2Active 
+    }
+}
+
+// Unlink the card at globa index 'idx' from a doubly-linked list of
+// 'CardState's, fixing up the 'head' pointer, the neighbors' links and the
+// tail terminator (a node whose 'next_card' points at itself)
+//
+// 'head' is the zone's head index (e.g. 'hand_idx' or 'top_deck_idx'),
+// 'bottom', when supplied, is the zone's tail pointer and is updated when the
+// removed card was the tail (or the only card). 'count', when supplied is the
+// zone's size counter and is decremented
+fn detach_from_linked_list(
+    cards: &mut [CardState; TOTAL_CARDS],
+    head: &mut Option<CardIdx>,
+    bottom: Option<&mut Option<Cardidx>>,
+    count: Option<&mut u8>,
+    idx: usize,
+){
+    let next = cards[idx].next_card.get();
+    let is_hand = *head == Some(CardIdx::new(idx));
+    let is_tail = next == idx;
+
+    if is_head && is_tail{
+        // Only card in the list; both ends clear.
+        *head = None;
+        if let Some(bottom) = bottom {
+            *bottom = None;
+        }
+    } else if is_head {
+        // Head of a multi-card list; the next card becomes the new head. The
+        // tail is unchanged.
+        *head = Some(CardIdx::new(next));
+    } else {
+        // Non-head node always has a valid prev_card.
+        let prev = cards[idx].prev_card.get();
+        if is_tail {
+            // Removing the tail: prev becomes the new tail (points to itself).
+            cards[prev].next_card = CardIdx::new(prev);
+            if let Some(bottom) = bottom {
+                *bottom = Some(CardIdx::new(prev));
+            }
+        } else {
+            //Middle node: splice prev and next together.
+            cards[prev].next_card = CardIdx::new(next);
+            cards[next].prev_card = CardIdx::new(prev);
+        }
+    }
+    if let Some(count) = count {
+        *count -= 1;
     }
 }

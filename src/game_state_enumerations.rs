@@ -97,7 +97,7 @@ pub enum GamePhase {
     //Terminal Phases below
     Player1Win,
     Player2Win,
-    Draw, // Both Players have the same number of win conditions
+    PlayerDraw, // Both Players have the same number of win conditions
 }
 
 impl GamePhase {

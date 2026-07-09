@@ -51,7 +51,7 @@ on-play-effect helpers).
   [ ] Legal Actions
   [/] PTCG Step
   - [ ] handle_setup: Draw hands until basic in hand, mulligans, setup prize cards
-  - [ ] handle_draw_for_turn: Draw at the beginning of turn and any on-draw effects
+  - [/] handle_draw_for_turn: Draw at the beginning of turn and any on-draw effects
   - [ ] handle_player_actions: Player ations for playing cards. Seleting attack or pass ends turn
   - [ ] handle_attack: Handle attack damage and effect resolution. Checks for win conditions.
                        Then calls handle_end_of_turn to finish turn.

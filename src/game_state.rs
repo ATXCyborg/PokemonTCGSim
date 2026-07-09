@@ -73,6 +73,7 @@ pub struct Player {
     pub lose_zone_idx: Option<CardIdx>,
     pub discard_idx: Option<CardIdx>,
     pub bench_idx: Option<CardIdx>,
+    pub active_idx: Option<CardIdx>,
     pub hand_size: u8,
     pub deck_size: u8,
     pub log: Option<Vec<String>>,
@@ -122,6 +123,25 @@ impl GameState {
     // or a draw). When this holds, `step` is a no-op and there are no legal actions.
     pub fn is_game_over(&self) -> bool {
         self.phase.is_terminal()
+    }
+
+    pub fn check_for_deck_out(&self) -> bool {
+        let deck_size = if self.turn_player == PlayerIndex::P1 {
+            self.p1.deck_size
+        } else {
+            self.p2.deck_size
+        };
+        return deck_size == 0;
+    }
+
+    pub fn check_game_end(&mut self) -> bool {
+        if self.is_game_over() {
+            return true;
+        }
+        match self.phase {
+            GamePhase::Draw => return self.check_for_deck_out(),
+            _ => {}
+        }
     }
 
     // Move the below functions to the Player implementation
